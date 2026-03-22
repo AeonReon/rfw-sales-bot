@@ -494,7 +494,7 @@ body {
 const LM_STUDIO_URL = '/v1/chat/completions';
 const LM_STUDIO_MODEL = 'qwen2.5-7b-instruct'; // Your loaded model in LM Studio
 const GEMINI_API_KEY = 'AIzaSyAQNdjTC58aff1I9G0M2Szoplx5q_YDfzc';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // ═══ STATE ═══
 let currentMode = null;
@@ -532,7 +532,7 @@ const PRESALE_STEPS = {
   2: `YOUR TASK: React warmly to their business name. Then ask: do they have any online presence — a website, social media, or Google Maps listing? Stop there.`,
   '3a': `YOUR TASK: React positively to their links. Say you will pull all their business details (phone, address, hours etc) from those so they do not need to type anything. Then ask: is there anything they would like to be different from what is currently on those pages? Stop there.`,
   '3a_done': `YOUR TASK: Acknowledge their answer. Then ask if they have any photos of their business — things like their shop, their work, their team. Explain why: photos are what make a website feel personal and really theirs. 3-5 is a great start. They can email photos to hello@realfastwebsite.com. If they do not have any right now that is fine, you can start without them. Only ask about photos, nothing else.`,
-  '3b': `YOUR TASK: Say no worries, you will grab the details one at a time — it is really quick. Then ask: what phone number should customers call? Stop there.`,
+  '3b': `YOUR TASK: Say something warm and encouraging like "No worries at all!" then naturally move on and ask what phone number customers should use to contact them. Do NOT say "you will grab the details" — just ask the phone number question in a friendly way. Stop there.`,
   4: `YOUR TASK: Acknowledge their answer. Ask what email address should be on the website for enquiries. Only ask this one question.`,
   5: `YOUR TASK: Acknowledge their answer. Ask if their WhatsApp number is the same as the phone number or a different one. Only ask this one question.`,
   6: `YOUR TASK: Acknowledge their answer. Ask what the business address is. Only ask this one question.`,
