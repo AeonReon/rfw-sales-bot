@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealFastWebsite — Client Setup (Local)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FAFAF7;
+  --card: #FFFFFF;
+  --border: #E8E5DE;
+  --border-light: #F0EDE6;
+  --accent: #1B4332;
+  --accent-light: #2D6A4F;
+  --accent-soft: rgba(27,67,50,0.06);
+  --gold: #B5873A;
+  --gold-soft: rgba(181,135,58,0.08);
+  --gold-border: rgba(181,135,58,0.2);
+  --text: #1A1A18;
+  --text-mid: #4A4A45;
+  --text-muted: #8A8A82;
+  --text-light: #B0B0A8;
+  --white: #FFFFFF;
+  --chat-bg: #F5F4F0;
+  --bot-bubble: #FFFFFF;
+  --user-bubble: #1B4332;
+  --user-text: #FFFFFF;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ═══ BRAND ═══ */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  border: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ═══ LANDING PAGE ═══ */
+.landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px 40px;
+}
+.landing-inner {
+  max-width: 720px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+}
+.landing h1 {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 24px 0 12px;
+}
+.landing .subtitle {
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto 36px;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.mode-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 320px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  overflow: hidden;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+.mode-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(181,135,58,0.12);
+  transform: translateY(-3px);
+}
+.card-hero {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  background: linear-gradient(135deg, #E8E5DE 0%, #D4D0C8 100%);
+}
+.section-divider {
+  width: 80px;
+  height: 1px;
+  background: var(--border);
+  margin: 48px auto 40px;
+}
+.card-body {
+  padding: 16px 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-soft);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  display: inline-block;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.card-cta {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.landing-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 32px;
+  line-height: 1.6;
+}
+
+/* ═══ CHAT ═══ */
+.chat-screen {
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--chat-bg);
+}
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.header-info { line-height: 1.2; }
+.header-name { font-size: 14px; font-weight: 600; }
+.header-role { font-size: 11px; color: var(--text-muted); }
+.header-spacer { width: 60px; }
+
+/* Messages */
+.messages-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.messages-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.msg-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.msg-row.user { justify-content: flex-end; }
+.msg-row.bot { justify-content: flex-start; }
+.msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.bubble {
+  max-width: 78%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.bubble p { margin: 0 0 8px; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble.bot {
+  background: var(--bot-bubble);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.bubble.user {
+  background: var(--user-bubble);
+  color: var(--user-text);
+  border-bottom-right-radius: 4px;
+}
+
+/* Typing indicator */
+.typing-dots { display: flex; gap: 5px; padding: 4px 8px; }
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: dotPulse 1.2s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Input bar */
+.input-bar {
+  padding: 12px 16px 20px;
+  background: var(--white);
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.input-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.input-inner input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text);
+  outline: none;
+}
+.input-inner input:focus { border-color: var(--gold); }
+.send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+.send-btn:disabled { opacity: 0.4; cursor: default; }
+.send-btn svg { fill: var(--white); }
+
+/* ═══ SEND PHOTOS BUTTON ═══ */
+.photos-btn-row {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 36px;
+}
+.photos-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--gold);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.photos-btn:hover {
+  background: rgba(181,135,58,0.15);
+  border-color: var(--gold);
+}
+.photos-btn svg {
+  flex-shrink: 0;
+}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.typing-cursor {
+  display: inline;
+  animation: blink 0.7s step-end infinite;
+  color: var(--text-muted);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 700px) {
+  .landing h1 { font-size: 26px; }
+  .cards { flex-direction: column; align-items: center; }
+  .mode-card { width: 100%; max-width: 360px; }
+  .card-hero { height: 180px; }
+  .bubble { max-width: 85%; }
+}
+
+/* Hide screens by default */
+.screen { display: none; }
+.screen.active { display: flex; }
+.chat-screen.active { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ LANDING PAGE (starts active — no API key needed) ═══════════ -->
+<div id="landingScreen" class="screen landing active">
+  <div class="landing-inner">
+    <div class="brand" style="justify-content:center; margin-bottom:24px;">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B5873A" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="brand-name">RealFastWebsite</span>
+    </div>
+
+    <!-- ═══ SECTION 1: PRE-LAUNCH ═══ -->
+    <h1>Let's Build Your Website<br>Fast &amp; Easy</h1>
+    <p class="subtitle">Jennifer will grab your details so we can start building — takes about 5 minutes.</p>
+
+    <div class="cards">
+      <div class="mode-card" onclick="startChat('presale')">
+        <img src="images/Prelaunchsetup.png" alt="Pre-Launch Setup with Jennifer" class="card-hero">
+        <div class="card-body">
+          <span class="card-badge">STEP 1</span>
+          <div class="card-desc">Ready to start building your website? Brilliant! Jennifer will grab your details and we'll get straight to work.</div>
+          <div class="card-footer">
+            <span class="card-time">⏱ About 5 minutes</span>
+            <span class="card-cta">Get Started →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 2: GO LIVE ═══ -->
+    <div class="section-divider"></div>
+    <h1>Let's Get Your Website<br>Live &amp; Online</h1>
+    <p class="subtitle">James will walk you through connecting your domain and getting everything working — step by step.</p>
+
+    <div class="cards">
+      <div class="mode-card" onclick="startChat('postsale')">
+        <img src="images/golivejames.png" alt="Go Live with James" class="card-hero">
+        <div class="card-body">
+          <span class="card-badge">STEP 2</span>
+          <div class="card-desc">Your website is built and ready! James will connect your domain and get you live for the world to see.</div>
+          <div class="card-footer">
+            <span class="card-time">⏱ About 10–15 minutes</span>
+            <span class="card-cta">Let's Launch →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="landing-footer">
+      You'll be chatting with your personal setup assistant.<br>No tech knowledge needed — they'll guide you through every step.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════ CHAT SCREEN ═══════════ -->
+<div id="chatScreen" class="chat-screen">
+  <div class="chat-header">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="header-center">
+      <img id="headerAvatar" class="header-avatar" src="" alt="">
+      <div class="header-info">
+        <div class="header-name" id="headerName"></div>
+        <div class="header-role" id="headerRole"></div>
+      </div>
+    </div>
+    <div class="header-spacer"></div>
+  </div>
+
+  <div class="messages-wrap" id="messagesWrap">
+    <div class="messages-inner" id="messagesInner"></div>
+  </div>
+
+  <div class="input-bar">
+    <div class="input-inner">
+      <input type="text" id="chatInput" placeholder="Type your reply..." onkeydown="handleKeyDown(event)">
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+        <svg width="18" height="18" viewBox="0 0 20 20"><path d="M3 10L17 3L13 17L10 12L3 10Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// LOCAL VERSION — Uses LM Studio on Mac mini
+// No API key needed. Talks to localhost:1234.
+// ═══════════════════════════════════════════════════
+
+// ═══ CONFIG ═══
+const LM_STUDIO_URL = '/v1/chat/completions';
+const LM_STUDIO_MODEL = 'qwen2.5-7b-instruct'; // Your loaded model in LM Studio
+const GEMINI_API_KEY = 'AIzaSyAQNdjTC58aff1I9G0M2Szoplx5q_YDfzc';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+
+// ═══ STATE ═══
+let currentMode = null;
+let messages = [];
+let isLoading = false;
+let clientBusinessName = '';
+let presaleStep = 1;
+let hasLinks = false;
+
+const AVATARS = {
+  presale: 'images/jennifer.png',
+  postsale: 'images/james.png'
+};
+
+const NAMES = {
+  presale: 'Jennifer',
+  postsale: 'James'
+};
+
+const ROLES = {
+  presale: 'Pre-Launch Setup',
+  postsale: 'Go Live Assistant'
+};
+
+const FIRST_MESSAGES = {
+  presale: `Hey there! 👋 I'm Jennifer, and I'll be looking after you through this whole process. Congrats on getting your new website started — this is the exciting part!\n\nI just need to grab a few quick details from you and then our team gets straight to work building your site. Most people are done in about 5 minutes.\n\nSo first things first — what's the name of your business?`,
+  postsale: `Hey! 👋 I'm James — welcome back! Your website is built and ready to go, so now we just need to get it live for the world to see. Exciting stuff!\n\nHere's everything we'll do together — it's simpler than it looks:\n\n✅ Step 1 — Check your site preview looks perfect\n✅ Step 2 — Connect your domain name\n✅ Step 3 — Test everything works\n✅ Step 4 — You're live! 🎉\n\nI'll walk you through every tiny step, so don't worry about a thing. Ready? Let's start with Step 1!\n\nHave you had a chance to look at your website preview link yet? Does everything look right — the text, photos, contact details?`
+};
+
+const PRESALE_BASE = `You are Jennifer, a friendly client success coordinator at RealFastWebsite. You are warm, enthusiastic and speak like a real person. Keep messages short — 2-3 sentences max. There is NO file upload in this chat. Photos can ONLY be emailed to hello@realfastwebsite.com. Never mention uploading, attaching, or dragging files. Only help with website tasks. Pricing if asked: one-time £197, free hosting, no monthly fees.
+
+IMPORTANT: Your ONLY job right now is to do what YOUR TASK says below. Ask the ONE question described there and nothing else. Do not ask about anything from future steps.`;
+
+const PRESALE_STEPS = {
+  2: `YOUR TASK: React warmly to their business name. Then ask: do they have any online presence — a website, social media, or Google Maps listing? Stop there.`,
+  '3a': `YOUR TASK: React positively to their links. Say you will pull all their business details (phone, address, hours etc) from those so they do not need to type anything. Then ask: is there anything they would like to be different from what is currently on those pages? Stop there.`,
+  '3a_done': `YOUR TASK: Acknowledge their answer. Then ask if they have any photos of their business — things like their shop, their work, their team. Explain why: photos are what make a website feel personal and really theirs. 3-5 is a great start. They can email photos to hello@realfastwebsite.com. If they do not have any right now that is fine, you can start without them. Only ask about photos, nothing else.`,
+  '3b': `YOUR TASK: Say no worries, you will grab the details one at a time — it is really quick. Then ask: what phone number should customers call? Stop there.`,
+  4: `YOUR TASK: Acknowledge their answer. Ask what email address should be on the website for enquiries. Only ask this one question.`,
+  5: `YOUR TASK: Acknowledge their answer. Ask if their WhatsApp number is the same as the phone number or a different one. Only ask this one question.`,
+  6: `YOUR TASK: Acknowledge their answer. Ask what the business address is. Only ask this one question.`,
+  7: `YOUR TASK: Acknowledge their answer. Ask what the opening hours are. Only ask this one question.`,
+  8: `YOUR TASK: Acknowledge their answer. Ask them to describe what they do in their own words — just a couple of sentences. Only ask this one question.`,
+  9: `YOUR TASK: Acknowledge their answer. Then ask if they have any photos of their business — things like their shop, their work, their team. Explain why: photos are what make a website feel personal and really theirs. 3-5 is a great start. They can email photos to hello@realfastwebsite.com. If they do not have any right now that is fine, you can start without them. Only ask about photos, nothing else.`,
+  10: `YOUR TASK: Respond warmly to their answer about photos. Then ask the client directly: do you have a logo? Only ask about the logo, nothing else.`,
+  11: `YOUR TASK: Respond to their logo answer. Then ask: any favourite colours for their brand, or happy for the team to choose something that suits? Stop there.`,
+  12: `YOUR TASK: Summarise ALL the information collected so far in a clear list. Then ask them to have a quick look and confirm everything is right, or let you know if anything needs changing.`,
+  13: `YOUR TASK: Say "That is everything we need! Our team will get started on your site right away. You will get a preview link to check before it goes live. If you think of anything else, just come back and chat anytime. Can not wait for you to see it!" Then add [SEND_SUMMARY] on its own line at the very end.`,
+};
+
+function getPresaleStepKey() {
+  return presaleStep;
+}
+
+function advancePresaleStep(userText) {
+  const lower = userText.toLowerCase();
+  if (presaleStep === 2) {
+    // Step 2 done (asked about online presence). Now we need to check their NEXT answer for links.
+    presaleStep = '2_answered';
+  } else if (presaleStep === '3a') {
+    presaleStep = '3a_done';
+  } else if (presaleStep === '3a_done') {
+    presaleStep = 10;
+  } else if (presaleStep === '3b') {
+    presaleStep = 4;
+  } else if (typeof presaleStep === 'number' && presaleStep >= 4 && presaleStep <= 8) {
+    presaleStep++;
+  } else if (presaleStep === 9) {
+    presaleStep = 10;
+  } else if (presaleStep === 10) {
+    presaleStep = 11;
+  } else if (presaleStep === 11) {
+    presaleStep = 12;
+  } else if (presaleStep === 12) {
+    presaleStep = 13;
+  }
+}
+
+const SYSTEM_PROMPTS = {
+  presale: PRESALE_BASE,
+
+  postsale: `You are James from RealFastWebsite. You help clients get their new website live.
+
+PERSONALITY: Calm, warm, patient, encouraging. Short messages (2-4 sentences). One step at a time. No jargon. Celebrate progress.
+
+RULES:
+- Only help with website go-live tasks. Redirect anything else.
+- NEVER end without a question or next step.
+- NEVER mention upload buttons or attachments in this chat.
+- To send anything, email hello@realfastwebsite.com
+- Ask ONE question at a time. Wait for the answer before moving on.
+
+PROCESS (follow in order, one step at a time):
+
+STEP 1 — REVIEW SITE (your first message was already sent)
+Ask them to check their preview link. Does everything look right? If changes needed, email hello@realfastwebsite.com.
+
+STEP 2 — DOMAIN
+2a. Ask: "Do you already own a domain name? That's the website address like yourbusiness.com"
+- If NO: recommend buying one on Namecheap.com
+- If UNSURE: "Check email for receipts from GoDaddy, Namecheap, or 123 Reg"
+- If YES: continue
+
+2b. Ask: "Which company did you buy it from?"
+
+2c. Ask: "Do you have a business email using your domain? Like info@yourbusiness.com?"
+- If YES: say "Good you told me — we'll be careful to only change the website part and leave email untouched. Send yourself a test email first to confirm it works. Let me know when done!"
+- Then when giving DNS instructions, add: "IMPORTANT: Do NOT delete any existing records. Only ADD new ones. Leave any MX or TXT records alone — those are your email."
+
+2d. DNS SETUP — Use the correct guide based on their registrar:
+
+FOR GODADDY:
+1. Log in at godaddy.com
+2. Click on your domain name
+3. Click the DNS tab
+4. Click "Add New Record"
+5. First record: Type = A, Name = @, Value = 76.76.21.21, TTL = default. Click Save.
+6. Click "Add New Record" again
+7. Second record: Type = CNAME, Name = www, Value = cname.vercel-dns.com, TTL = default. Click Save.
+
+FOR NAMECHEAP:
+1. Log in at namecheap.com
+2. Click "Domain List" on the left
+3. Click "Manage" next to your domain
+4. Click the "Advanced DNS" tab
+5. Click "Add New Record"
+6. First record: Type = A Record, Host = @, Value = 76.76.21.21. Click the green tick.
+7. Click "Add New Record" again
+8. Second record: Type = CNAME Record, Host = www, Value = cname.vercel-dns.com. Click the green tick.
+
+FOR 123 REG:
+1. Log in to your 123 Reg Control Panel
+2. Click "Manage All" next to Domains
+3. Click on your domain name
+4. Under Advanced domain settings, click "Manage DNS"
+5. Click "Advanced DNS" tab
+6. Click "Add New Record"
+7. First record: Type = A, Hostname = @, Value = 76.76.21.21. Click Add.
+8. Click "Add New Record" again
+9. Second record: Type = CNAME, Name = www, Value = cname.vercel-dns.com. (add a full stop at the end). Click Add.
+
+FOR ANY OTHER REGISTRAR: Say "I don't have the exact steps for that provider. Email us at hello@realfastwebsite.com and we'll walk you through it personally!"
+
+After DNS: "Changes usually take a few minutes but can take up to a couple of hours."
+
+2e. If they have business email, ask them to test it again after DNS changes.
+
+STEP 3 — TEST (one at a time)
+- Visit your website on phone and computer
+- Fill in the contact form — did the test message arrive?
+- Tap the WhatsApp button — does it work?
+
+STEP 4 — DONE!
+Say: "Your website is officially live! 🎉 You should be really proud — it looks amazing. If you ever need changes, email hello@realfastwebsite.com. And when you're ready to get more customers through Google or social media, our marketing team at Ascension Marketing would love to help. Enjoy your new website!"
+Include [SEND_SUMMARY] at the very end.
+
+IF STUCK: "No rush. Tell me exactly what you see on your screen and I'll guide you."
+IF EMAIL BREAKS: "Don't worry, this is fixable. A record probably got changed. Let's check together."`
+};
+
+// ═══ SCREEN MANAGEMENT ═══
+function showScreen(id) {
+  document.querySelectorAll('.screen, .chat-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goBack() {
+  currentMode = null;
+  messages = [];
+  clientBusinessName = '';
+  showScreen('landingScreen');
+}
+
+// ═══ CHAT ═══
+function startChat(mode) {
+  currentMode = mode;
+  messages = [];
+  clientBusinessName = '';
+  presaleStep = 2;
+  hasLinks = false;
+
+  document.getElementById('headerAvatar').src = AVATARS[mode];
+  document.getElementById('headerName').textContent = NAMES[mode];
+  document.getElementById('headerRole').textContent = ROLES[mode];
+
+  showScreen('chatScreen');
+  document.getElementById('messagesInner').innerHTML = '';
+
+  typeBotMessage(FIRST_MESSAGES[mode]);
+
+  document.getElementById('chatInput').focus();
+}
+
+// ═══ TYPING EFFECT ═══
+function typeBotMessage(fullText) {
+  let displayText = fullText
+    .replace(/\[SHOW_PHOTOS_BUTTON\]/g, '')
+    .replace(/\[SEND_SUMMARY\]/g, '')
+    .replace(/📸?\s*Send Photos Button\.?/gi, '')
+    .replace(/send photos button\.?/gi, '')
+    .replace(/upload files? button\.?/gi, '')
+    .replace(/\bthe button below\b/gi, 'the button that will appear below')
+    .replace(/[Dd]rag and drop.{0,50}\./g, '')
+    .replace(/[Cc]lick.{0,30}(upload|attach|select).{0,50}\./g, '')
+    .replace(/[Uu]pload.{0,30}(files?|images?|photos?).{0,50}\./g, '')
+    .replace(/Then ask:\s*/gi, '')
+    .replace(/Stop there\.?\s*/gi, '')
+    .replace(/YOUR TASK:.*/gi, '')
+    .replace(/\n\s*\n\s*\n/g, '\n\n')
+    .trim();
+  const showPhotos = fullText.includes('[SHOW_PHOTOS_BUTTON]') || /email.{0,30}(photos|images)|photos.{0,30}email|send.{0,10}(us |me )?(your )?photos|have any photos|got any photos|photos.{0,20}(personal|unique|special)|photos make/i.test(fullText);
+  const sendSummary = fullText.includes('[SEND_SUMMARY]');
+
+  const inner = document.getElementById('messagesInner');
+  const row = document.createElement('div');
+  row.className = 'msg-row bot';
+
+  const avatar = document.createElement('img');
+  avatar.className = 'msg-avatar';
+  avatar.src = AVATARS[currentMode];
+  avatar.alt = NAMES[currentMode];
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bot';
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  inner.appendChild(row);
+
+  const words = displayText.split(/(\s+)/);
+  let wordIndex = 0;
+  let currentContent = '';
+
+  function renderContent(text, showCursor) {
+    const lines = text.split('\n');
+    let html = lines.map(line => `<p>${line || '&nbsp;'}</p>`).join('');
+    if (showCursor) {
+      html = html.replace(/<\/p>$/, '<span class="typing-cursor">▊</span></p>');
+    }
+    bubble.innerHTML = html;
+  }
+
+  const speed = 30;
+
+  function typeNext() {
+    if (wordIndex < words.length) {
+      currentContent += words[wordIndex];
+      wordIndex++;
+      renderContent(currentContent, true);
+      scrollToBottom();
+      setTimeout(typeNext, speed);
+    } else {
+      renderContent(currentContent, false);
+      scrollToBottom();
+      if (showPhotos) showPhotosButton();
+      if (sendSummary) sendEmailSummary();
+    }
+  }
+
+  typeNext();
+}
+
+function addBotMessage(text) {
+  const inner = document.getElementById('messagesInner');
+  const row = document.createElement('div');
+  row.className = 'msg-row bot';
+
+  const avatar = document.createElement('img');
+  avatar.className = 'msg-avatar';
+  avatar.src = AVATARS[currentMode];
+  avatar.alt = NAMES[currentMode];
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bot';
+  bubble.innerHTML = text.split('\n').map(line => `<p>${line || '&nbsp;'}</p>`).join('');
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  inner.appendChild(row);
+  scrollToBottom();
+}
+
+function addUserMessage(text) {
+  const inner = document.getElementById('messagesInner');
+  const row = document.createElement('div');
+  row.className = 'msg-row user';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble user';
+  bubble.innerHTML = text.split('\n').map(line => `<p>${line || '&nbsp;'}</p>`).join('');
+
+  row.appendChild(bubble);
+  inner.appendChild(row);
+  scrollToBottom();
+}
+
+// ═══ PHOTOS BUTTON ═══
+function showPhotosButton() {
+  const inner = document.getElementById('messagesInner');
+  const row = document.createElement('div');
+  row.className = 'photos-btn-row';
+
+  const subject = encodeURIComponent(`Photos for ${clientBusinessName || 'my website'} — RealFastWebsite`);
+  const body = encodeURIComponent(`Hi team,\n\nHere are my photos for the website. Please find them attached!\n\nThanks`);
+  const mailto = `mailto:hello@realfastwebsite.com?subject=${subject}&body=${body}`;
+
+  const btn = document.createElement('a');
+  btn.className = 'photos-btn';
+  btn.href = mailto;
+  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> 📸 Send Photos`;
+
+  row.appendChild(btn);
+  inner.appendChild(row);
+  scrollToBottom();
+}
+
+// ═══ EMAIL SUMMARY ═══
+function sendEmailSummary() {
+  const conversationText = messages.map(m => {
+    const role = m.role === 'user' ? 'Client' : NAMES[currentMode];
+    return `${role}: ${m.content}`;
+  }).join('\n\n');
+
+  const mode_label = currentMode === 'presale' ? 'Pre-Launch Setup' : 'Go Live';
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      access_key: 'YOUR_WEB3FORMS_KEY_HERE',
+      subject: `✅ ${mode_label} Complete — ${clientBusinessName || 'New Client'}`,
+      from_name: 'RealFastWebsite Bot',
+      message: `${mode_label} conversation completed.\n\nClient business: ${clientBusinessName || 'Not provided'}\n\n--- FULL CONVERSATION ---\n\n${conversationText}`
+    })
+  }).catch(err => console.log('Summary email failed:', err));
+}
+
+function showTyping() {
+  const inner = document.getElementById('messagesInner');
+  const row = document.createElement('div');
+  row.className = 'msg-row bot';
+  row.id = 'typingRow';
+
+  const avatar = document.createElement('img');
+  avatar.className = 'msg-avatar';
+  avatar.src = AVATARS[currentMode];
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bot';
+  bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  inner.appendChild(row);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const el = document.getElementById('typingRow');
+  if (el) el.remove();
+}
+
+function scrollToBottom() {
+  const wrap = document.getElementById('messagesWrap');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+// ═══ SEND MESSAGE (LM Studio — OpenAI-compatible API) ═══
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  if (currentMode === 'presale' && messages.length === 0) {
+    clientBusinessName = text;
+  }
+
+  messages.push({ role: 'user', content: text });
+  addUserMessage(text);
+  input.value = '';
+  updateSendBtn();
+
+  isLoading = true;
+  showTyping();
+
+  try {
+    // For presale: if we are waiting for the links answer, check it now to pick the right step
+    if (currentMode === 'presale' && presaleStep === '2_answered') {
+      const lower = text.toLowerCase();
+      if (lower.includes('.com') || lower.includes('.co.') || lower.includes('.uk') || lower.includes('.org') || lower.includes('.net') || lower.includes('http') || lower.includes('www.') || lower.includes('facebook') || lower.includes('instagram') || lower.includes('google map') || lower.includes('tiktok') || lower.includes('twitter') || lower.includes('linkedin') || lower.includes('yes')) {
+        hasLinks = true;
+        presaleStep = '3a';
+      } else {
+        hasLinks = false;
+        presaleStep = '3b';
+      }
+    }
+
+    // Build system prompt — for presale, inject step-specific instruction
+    let systemContent = SYSTEM_PROMPTS[currentMode];
+    if (currentMode === 'presale' && PRESALE_STEPS[presaleStep]) {
+      systemContent = PRESALE_BASE + '\n\n' + PRESALE_STEPS[presaleStep];
+    }
+
+    // Both Jennifer and James use Gemini
+    const botName = currentMode === 'postsale' ? 'James' : 'Jennifer';
+    const geminiContents = [];
+    geminiContents.push({ role: 'user', parts: [{ text: systemContent }] });
+    geminiContents.push({ role: 'model', parts: [{ text: `Understood. I am ${botName} and I will follow these instructions exactly.` }] });
+    for (const m of messages) {
+      geminiContents.push({
+        role: m.role === 'user' ? 'user' : 'model',
+        parts: [{ text: m.content }]
+      });
+    }
+
+    const geminiResponse = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: geminiContents,
+        generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
+      })
+    });
+
+    if (!geminiResponse.ok) {
+      const err = await geminiResponse.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Gemini error: ${geminiResponse.status}`);
+    }
+
+    const geminiData = await geminiResponse.json();
+    const reply = geminiData.candidates[0].content.parts[0].text;
+
+    messages.push({ role: 'assistant', content: reply });
+    hideTyping();
+    typeBotMessage(reply);
+
+    // Advance presale step AFTER response
+    if (currentMode === 'presale') {
+      advancePresaleStep(text);
+    }
+  } catch (err) {
+    hideTyping();
+    addBotMessage(`Oops, something went wrong. Please check your internet connection and try again.`);
+  } finally {
+    isLoading = false;
+    input.focus();
+  }
+}
+
+function handleKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+// Enable/disable send button
+const chatInput = document.getElementById('chatInput');
+chatInput.addEventListener('input', updateSendBtn);
+function updateSendBtn() {
+  document.getElementById('sendBtn').disabled = !chatInput.value.trim() || isLoading;
+}
+</script>
+</body>
+</html>
