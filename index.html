@@ -794,7 +794,7 @@ function sendEmailSummary() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      access_key: 'YOUR_WEB3FORMS_KEY_HERE',
+      access_key: 'a283ddc7-c17f-48d9-a985-a43c3e34d88d',
       subject: `✅ ${mode_label} Complete — ${clientBusinessName || 'New Client'}`,
       from_name: 'RealFastWebsite Bot',
       message: `${mode_label} conversation completed.\n\nClient business: ${clientBusinessName || 'Not provided'}\n\n--- FULL CONVERSATION ---\n\n${conversationText}`
