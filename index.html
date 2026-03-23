@@ -433,18 +433,18 @@ body {
 
     <!-- ═══ SECTION 2: GO LIVE ═══ -->
     <div class="section-divider"></div>
-    <h1>Let's Get Your Website<br>Live &amp; Online</h1>
-    <p class="subtitle">James will walk you through connecting your domain and getting everything working — step by step.</p>
+    <h1>Let's Get Your Website<br>Ready to Launch</h1>
+    <p class="subtitle">James will grab a few quick details so our team can get everything set up for you.</p>
 
     <div class="cards">
       <div class="mode-card" onclick="startChat('postsale')">
-        <img src="images/golivejames.png" alt="Go Live with James" class="card-hero">
+        <img src="images/golivejames.png" alt="Setup with James" class="card-hero">
         <div class="card-body">
           <span class="card-badge">STEP 2</span>
-          <div class="card-desc">Your website is built and ready! James will connect your domain and get you live for the world to see.</div>
+          <div class="card-desc">Your website is built and ready! James will grab a few details about your domain and hosting so we can get you live.</div>
           <div class="card-footer">
-            <span class="card-time">⏱ About 10–15 minutes</span>
-            <span class="card-cta">Let's Launch →</span>
+            <span class="card-time">⏱ About 3–5 minutes</span>
+            <span class="card-cta">Let's Go →</span>
           </div>
         </div>
       </div>
@@ -491,10 +491,7 @@ body {
 // ═══════════════════════════════════════════════════
 
 // ═══ CONFIG ═══
-const LM_STUDIO_URL = '/v1/chat/completions';
-const LM_STUDIO_MODEL = 'qwen2.5-7b-instruct'; // Your loaded model in LM Studio
-const GEMINI_API_KEY = 'AIzaSyAQNdjTC58aff1I9G0M2Szoplx5q_YDfzc';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = '/api/chat';
 
 // ═══ STATE ═══
 let currentMode = null;
@@ -516,31 +513,33 @@ const NAMES = {
 
 const ROLES = {
   presale: 'Pre-Launch Setup',
-  postsale: 'Go Live Assistant'
+  postsale: 'Setup Coordinator'
 };
 
 const FIRST_MESSAGES = {
   presale: `Hey there! 👋 I'm Jennifer, and I'll be looking after you through this whole process. Congrats on getting your new website started — this is the exciting part!\n\nI just need to grab a few quick details from you and then our team gets straight to work building your site. Most people are done in about 5 minutes.\n\nSo first things first — what's the name of your business?`,
-  postsale: `Hey! 👋 I'm James — welcome back! Your website is built and ready to go, so now we just need to get it live for the world to see. Exciting stuff!\n\nHere's everything we'll do together — it's simpler than it looks:\n\n✅ Step 1 — Check your site preview looks perfect\n✅ Step 2 — Connect your domain name\n✅ Step 3 — Test everything works\n✅ Step 4 — You're live! 🎉\n\nI'll walk you through every tiny step, so don't worry about a thing. Ready? Let's start with Step 1!\n\nHave you had a chance to look at your website preview link yet? Does everything look right — the text, photos, contact details?`
+  postsale: `Hey! 👋 I'm James — welcome back! Your website is built and looking great.\n\nBefore we get it live, I just need to grab a few quick details from you so our team can set everything up perfectly. It'll only take a couple of minutes.\n\nFirst things first — have you had a chance to look at your website preview link? Does everything look right — the text, photos, contact details?`
 };
 
-const PRESALE_BASE = `You are Jennifer, a friendly client success coordinator at RealFastWebsite. You are warm, enthusiastic and speak like a real person. Keep messages short — 2-3 sentences max. There is NO file upload in this chat. Photos can ONLY be emailed to hello@realfastwebsite.com. Never mention uploading, attaching, or dragging files. Only help with website tasks. Pricing if asked: one-time £197, free hosting, no monthly fees.
+const PRESALE_BASE = `You are Jennifer, a friendly client success coordinator at RealFastWebsite. You are warm, enthusiastic and speak like a real person. Keep messages short — 2-3 sentences max. There is NO file upload in this chat. Photos can ONLY be emailed to hello@realfastwebsite.com. Never mention uploading, attaching, or dragging files. Pricing if asked: one-time £197, free hosting, no monthly fees. Always speak directly to the client using "you" and "your", never "they" or "their".
+
+If the client asks about anything that is NOT related to building their website (apps, marketing, SEO, anything else), say something like "Ha I would love to help with that but I am only set up for getting your website details sorted! Let us get back to it..." and then repeat your current question.
 
 IMPORTANT: Your ONLY job right now is to do what YOUR TASK says below. Ask the ONE question described there and nothing else. Do not ask about anything from future steps.`;
 
 const PRESALE_STEPS = {
-  2: `YOUR TASK: React warmly to their business name. Then ask: do they have any online presence — a website, social media, or Google Maps listing? Stop there.`,
-  '3a': `YOUR TASK: React positively to their links. Say you will pull all their business details (phone, address, hours etc) from those so they do not need to type anything. Then ask: is there anything they would like to be different from what is currently on those pages? Stop there.`,
+  2: `YOUR TASK: React warmly to the client's business name. Then ask them directly using "you": "Do you have any online presence — a website, social media pages, or a Google Maps listing?" Only ask this one question.`,
+  '3a': `YOUR TASK: React positively to the links they shared. Say you will pull all the business details (phone, address, hours etc) from those so they do not need to type anything. Then ask: is there anything you would like to be different from what is currently on those pages? Only ask this one question.`,
   '3a_done': `YOUR TASK: Acknowledge their answer. Then ask if they have any photos of their business — things like their shop, their work, their team. Explain why: photos are what make a website feel personal and really theirs. 3-5 is a great start. They can email photos to hello@realfastwebsite.com. If they do not have any right now that is fine, you can start without them. Only ask about photos, nothing else.`,
-  '3b': `YOUR TASK: Say something warm and encouraging like "No worries at all!" then naturally move on and ask what phone number customers should use to contact them. Do NOT say "you will grab the details" — just ask the phone number question in a friendly way. Stop there.`,
-  4: `YOUR TASK: Acknowledge their answer. Ask what email address should be on the website for enquiries. Only ask this one question.`,
-  5: `YOUR TASK: Acknowledge their answer. Ask if their WhatsApp number is the same as the phone number or a different one. Only ask this one question.`,
-  6: `YOUR TASK: Acknowledge their answer. Ask what the business address is. Only ask this one question.`,
-  7: `YOUR TASK: Acknowledge their answer. Ask what the opening hours are. Only ask this one question.`,
-  8: `YOUR TASK: Acknowledge their answer. Ask them to describe what they do in their own words — just a couple of sentences. Only ask this one question.`,
+  '3b': `YOUR TASK: Say something warm and encouraging like "No worries at all!" then ask: "What phone number should customers use to contact you?" Only ask this one question.`,
+  4: `YOUR TASK: Acknowledge their answer. Ask: "What email address would you like on the website for enquiries?" Only ask this one question.`,
+  5: `YOUR TASK: Acknowledge their answer. Ask: "Is your WhatsApp the same number, or a different one?" Only ask this one question.`,
+  6: `YOUR TASK: Acknowledge their answer. Ask: "What is your business address?" Only ask this one question.`,
+  7: `YOUR TASK: Acknowledge their answer. Ask: "What are your opening hours?" Only ask this one question.`,
+  8: `YOUR TASK: Acknowledge their answer. Ask: "Can you describe what you do in your own words — just a couple of sentences?" Only ask this one question.`,
   9: `YOUR TASK: Acknowledge their answer. Then ask if they have any photos of their business — things like their shop, their work, their team. Explain why: photos are what make a website feel personal and really theirs. 3-5 is a great start. They can email photos to hello@realfastwebsite.com. If they do not have any right now that is fine, you can start without them. Only ask about photos, nothing else.`,
-  10: `YOUR TASK: Respond warmly to their answer about photos. Then ask the client directly: do you have a logo? Only ask about the logo, nothing else.`,
-  11: `YOUR TASK: Respond to their logo answer. Then ask: any favourite colours for their brand, or happy for the team to choose something that suits? Stop there.`,
+  10: `YOUR TASK: Respond warmly to their answer about photos. Then ask: "Do you have a logo?" Only ask about the logo, nothing else.`,
+  11: `YOUR TASK: Respond to their logo answer. Then ask: "Do you have any favourite colours for your brand, or would you be happy for our team to choose something that suits?" Only ask this one question.`,
   12: `YOUR TASK: Summarise ALL the information collected so far in a clear list. Then ask them to have a quick look and confirm everything is right, or let you know if anything needs changing.`,
   13: `YOUR TASK: Say "That is everything we need! Our team will get started on your site right away. You will get a preview link to check before it goes live. If you think of anything else, just come back and chat anytime. Can not wait for you to see it!" Then add [SEND_SUMMARY] on its own line at the very end.`,
 };
@@ -573,86 +572,55 @@ function advancePresaleStep(userText) {
   }
 }
 
+const POSTSALE_BASE = `You are James, a friendly setup coordinator at RealFastWebsite. You are calm, warm, patient and encouraging. Keep messages short — 2-3 sentences max. There is NO file upload in this chat. If they need to send anything, email hello@realfastwebsite.com. Only help with website setup tasks. Always speak directly to the client using "you" and "your".
+
+If the client asks about anything NOT related to getting their website live, say something like "Ha I would love to help but I am only set up for getting your website ready! Let us crack on..." and repeat your current question.
+
+IMPORTANT: Your ONLY job right now is to do what YOUR TASK says below. Ask the ONE question described there and nothing else. Do not ask about anything from future steps.`;
+
+const POSTSALE_STEPS = {
+  2: `YOUR TASK: React positively to their answer about the preview. If they are happy, say brilliant and move on. Then ask: "Do you have a website address already? Something like yourbusiness.com — have you ever bought one of those?" Only ask this one question.`,
+  '2_changes': `YOUR TASK: Say no problem at all. Ask them to email the changes they would like to hello@realfastwebsite.com and come back here once the updates have been made. Stop there.`,
+  3: `YOUR TASK: Acknowledge their answer. Ask: "Do you remember where you bought it from? Common ones are GoDaddy, Namecheap, or 123 Reg. If you are not sure, have a check through your emails — there will be a receipt from when you got it." Only ask this one question.`,
+  '3_no_domain': `YOUR TASK: Say no worries at all, that is totally normal. Say we can sort that out for you as part of the setup. Move on and ask: "Do you have a business email address? Something like info@yourbusiness.com or yourname@yourbusiness.com?" Only ask this one question.`,
+  4: `YOUR TASK: Acknowledge their answer. Then ask: "Do you have a business email address? Something like info@yourbusiness.com or yourname@yourbusiness.com?" Only ask this one question.`,
+  5: `YOUR TASK: Acknowledge their answer about email. Then ask: "Are you happy for our team to take care of getting everything connected and live for you, or do you have someone who usually looks after that kind of thing?" Only ask this one question.`,
+  6: `YOUR TASK: Acknowledge their answer. Then ask: "Is there anything else you would like us to know, or any questions at all before we get cracking?" Only ask this one question.`,
+  7: `YOUR TASK: You MUST write a summary list with bullet points. Start by saying "Here is a quick summary of what I have got:" then list these items:
+- Website address: [what they told you]
+- Bought from: [what they told you, or "not sure" if they were unsure]
+- Business email: [what they told you]
+- Setup: [who is handling it]
+Then ask: "Does everything look right?"
+Do NOT skip the summary. Do NOT just say goodbye.`,
+  8: `YOUR TASK: Say something like "That is everything I need! Our team will get straight to work getting your website live. We will be in touch very soon. If you think of anything else, just email hello@realfastwebsite.com. So exciting — your website is nearly out there for the world to see!" Then add [SEND_SUMMARY] on its own line at the very end.`,
+};
+
+let postsaleStep = 2;
+
+function advancePostsaleStep(userText) {
+  if (postsaleStep === 2) {
+    postsaleStep = 3;
+  } else if (postsaleStep === '2_changes') {
+    postsaleStep = 3;
+  } else if (postsaleStep === '3_no_domain') {
+    postsaleStep = 5;
+  } else if (postsaleStep === 3) {
+    postsaleStep = 4;
+  } else if (postsaleStep === 4) {
+    postsaleStep = 5;
+  } else if (postsaleStep === 5) {
+    postsaleStep = 6;
+  } else if (postsaleStep === 6) {
+    postsaleStep = 7;
+  } else if (postsaleStep === 7) {
+    postsaleStep = 8;
+  }
+}
+
 const SYSTEM_PROMPTS = {
   presale: PRESALE_BASE,
-
-  postsale: `You are James from RealFastWebsite. You help clients get their new website live.
-
-PERSONALITY: Calm, warm, patient, encouraging. Short messages (2-4 sentences). One step at a time. No jargon. Celebrate progress.
-
-RULES:
-- Only help with website go-live tasks. Redirect anything else.
-- NEVER end without a question or next step.
-- NEVER mention upload buttons or attachments in this chat.
-- To send anything, email hello@realfastwebsite.com
-- Ask ONE question at a time. Wait for the answer before moving on.
-
-PROCESS (follow in order, one step at a time):
-
-STEP 1 — REVIEW SITE (your first message was already sent)
-Ask them to check their preview link. Does everything look right? If changes needed, email hello@realfastwebsite.com.
-
-STEP 2 — DOMAIN
-2a. Ask: "Do you already own a domain name? That's the website address like yourbusiness.com"
-- If NO: recommend buying one on Namecheap.com
-- If UNSURE: "Check email for receipts from GoDaddy, Namecheap, or 123 Reg"
-- If YES: continue
-
-2b. Ask: "Which company did you buy it from?"
-
-2c. Ask: "Do you have a business email using your domain? Like info@yourbusiness.com?"
-- If YES: say "Good you told me — we'll be careful to only change the website part and leave email untouched. Send yourself a test email first to confirm it works. Let me know when done!"
-- Then when giving DNS instructions, add: "IMPORTANT: Do NOT delete any existing records. Only ADD new ones. Leave any MX or TXT records alone — those are your email."
-
-2d. DNS SETUP — Use the correct guide based on their registrar:
-
-FOR GODADDY:
-1. Log in at godaddy.com
-2. Click on your domain name
-3. Click the DNS tab
-4. Click "Add New Record"
-5. First record: Type = A, Name = @, Value = 76.76.21.21, TTL = default. Click Save.
-6. Click "Add New Record" again
-7. Second record: Type = CNAME, Name = www, Value = cname.vercel-dns.com, TTL = default. Click Save.
-
-FOR NAMECHEAP:
-1. Log in at namecheap.com
-2. Click "Domain List" on the left
-3. Click "Manage" next to your domain
-4. Click the "Advanced DNS" tab
-5. Click "Add New Record"
-6. First record: Type = A Record, Host = @, Value = 76.76.21.21. Click the green tick.
-7. Click "Add New Record" again
-8. Second record: Type = CNAME Record, Host = www, Value = cname.vercel-dns.com. Click the green tick.
-
-FOR 123 REG:
-1. Log in to your 123 Reg Control Panel
-2. Click "Manage All" next to Domains
-3. Click on your domain name
-4. Under Advanced domain settings, click "Manage DNS"
-5. Click "Advanced DNS" tab
-6. Click "Add New Record"
-7. First record: Type = A, Hostname = @, Value = 76.76.21.21. Click Add.
-8. Click "Add New Record" again
-9. Second record: Type = CNAME, Name = www, Value = cname.vercel-dns.com. (add a full stop at the end). Click Add.
-
-FOR ANY OTHER REGISTRAR: Say "I don't have the exact steps for that provider. Email us at hello@realfastwebsite.com and we'll walk you through it personally!"
-
-After DNS: "Changes usually take a few minutes but can take up to a couple of hours."
-
-2e. If they have business email, ask them to test it again after DNS changes.
-
-STEP 3 — TEST (one at a time)
-- Visit your website on phone and computer
-- Fill in the contact form — did the test message arrive?
-- Tap the WhatsApp button — does it work?
-
-STEP 4 — DONE!
-Say: "Your website is officially live! 🎉 You should be really proud — it looks amazing. If you ever need changes, email hello@realfastwebsite.com. And when you're ready to get more customers through Google or social media, our marketing team at Ascension Marketing would love to help. Enjoy your new website!"
-Include [SEND_SUMMARY] at the very end.
-
-IF STUCK: "No rush. Tell me exactly what you see on your screen and I'll guide you."
-IF EMAIL BREAKS: "Don't worry, this is fixable. A record probably got changed. Let's check together."`
+  postsale: POSTSALE_BASE
 };
 
 // ═══ SCREEN MANAGEMENT ═══
@@ -665,6 +633,7 @@ function goBack() {
   currentMode = null;
   messages = [];
   clientBusinessName = '';
+  postsaleStep = 2;
   showScreen('landingScreen');
 }
 
@@ -674,6 +643,7 @@ function startChat(mode) {
   messages = [];
   clientBusinessName = '';
   presaleStep = 2;
+  postsaleStep = 2;
   hasLinks = false;
 
   document.getElementById('headerAvatar').src = AVATARS[mode];
@@ -818,7 +788,7 @@ function sendEmailSummary() {
     return `${role}: ${m.content}`;
   }).join('\n\n');
 
-  const mode_label = currentMode === 'presale' ? 'Pre-Launch Setup' : 'Go Live';
+  const mode_label = currentMode === 'presale' ? 'Pre-Launch Setup' : 'Setup Info';
 
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
@@ -893,13 +863,32 @@ async function sendMessage() {
       }
     }
 
-    // Build system prompt — for presale, inject step-specific instruction
+    // For postsale: handle preview feedback branching
+    if (currentMode === 'postsale' && postsaleStep === 2) {
+      const lower = text.toLowerCase();
+      if (lower.includes('change') || lower.includes('wrong') || lower.includes('fix') || lower.includes('update') || lower.includes('not right') || lower.includes('incorrect')) {
+        postsaleStep = '2_changes';
+      }
+    }
+
+    // For postsale: handle domain yes/no branching
+    if (currentMode === 'postsale' && postsaleStep === 3) {
+      const lower = text.toLowerCase();
+      if (lower.includes('no') && !lower.includes('not sure') && !lower.includes('know')) {
+        postsaleStep = '3_no_domain';
+      }
+    }
+
+    // Build system prompt — inject step-specific instruction
     let systemContent = SYSTEM_PROMPTS[currentMode];
     if (currentMode === 'presale' && PRESALE_STEPS[presaleStep]) {
       systemContent = PRESALE_BASE + '\n\n' + PRESALE_STEPS[presaleStep];
     }
+    if (currentMode === 'postsale' && POSTSALE_STEPS[postsaleStep]) {
+      systemContent = POSTSALE_BASE + '\n\n' + POSTSALE_STEPS[postsaleStep];
+    }
 
-    // Both Jennifer and James use Gemini
+    // Use Gemini via server proxy
     const botName = currentMode === 'postsale' ? 'James' : 'Jennifer';
     const geminiContents = [];
     geminiContents.push({ role: 'user', parts: [{ text: systemContent }] });
@@ -916,7 +905,7 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: geminiContents,
-        generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
+        generationConfig: { maxOutputTokens: 512, temperature: 0.7 }
       })
     });
 
@@ -932,9 +921,12 @@ async function sendMessage() {
     hideTyping();
     typeBotMessage(reply);
 
-    // Advance presale step AFTER response
+    // Advance steps AFTER response
     if (currentMode === 'presale') {
       advancePresaleStep(text);
+    }
+    if (currentMode === 'postsale') {
+      advancePostsaleStep(text);
     }
   } catch (err) {
     hideTyping();
